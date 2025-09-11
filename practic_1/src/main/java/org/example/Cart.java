@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class Cart {
     private List<Product> products;
@@ -21,6 +19,10 @@ public class Cart {
 
     public void removeProduct(Product product) {
         products.remove(product);
+    }
+
+    public void clear() {
+        products.clear();
     }
 
     public double getTotalPrice() {

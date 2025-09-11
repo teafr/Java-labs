@@ -20,8 +20,9 @@ public class Main {
             System.out.println("\nВиберіть опцію:");
             System.out.println("1 - Переглянути список товарів");
             System.out.println("2 - Додати товар до кошика");
-            System.out.println("3 - Переглянути кошик");
-            System.out.println("4 - Зробити замовлення");
+            System.out.println("3 - Видалити товар з кошика");
+            System.out.println("4 - Переглянути кошик");
+            System.out.println("5 - Зробити замовлення");
             System.out.println("0 - Вийти");
 
             int choice = scanner.nextInt();
@@ -32,20 +33,42 @@ public class Main {
                     System.out.println(product3);
                     break;
                 case 2:
-                System.out.println("Введіть ID товару для додавання до кошика:");
-                int id = scanner.nextInt();
+                    System.out.println("Введіть ID товару для додавання до кошика:");
+                    int id = scanner.nextInt();
 
-                if (id == 1) cart.addProduct(product1);
-                else if (id == 2) cart.addProduct(product2);
-                else if (id == 3) cart.addProduct(product3);
-                else System.out.println("Товар з таким ID не знайдено");
-                break;
+                    if (id == 1) cart.addProduct(product1);
+                    else if (id == 2) cart.addProduct(product2);
+                    else if (id == 3) cart.addProduct(product3);
+                    else System.out.println("Товар з таким ID не знайдено");
+                    break;
                 case 3:
-                    System.out.println(cart);
+                    System.out.println("Який товар хочете видалити з кошика? Напишіть ID");
+                    for (Product product : cart.getProducts()) {
+                        System.out.println(product);
+                    }
+
+                    int idToDelete = scanner.nextInt();
+                    Product foundProduct = cart.getProducts().stream().findFirst().filter(product -> product.getId() == idToDelete).orElse(null);
+
+                    if (foundProduct != null) {
+                        cart.removeProduct(foundProduct);
+                        System.out.println("Товар видалено з кошика");
+                    }
+
+                    System.out.println("Товар не знайдено");
                     break;
                 case 4:
-                    System.out.println("Замовлення оформлено!");
-                    cart = new Cart();
+                    System.out.println(cart);
+                    break;
+                case 5:
+                    if (cart.getProducts().isEmpty()) {
+                        System.out.println("Кошик порожній. Додайте товари перед оформленням замовлення.");
+                    } else {
+                        Order order = new Order(cart);
+                        System.out.println("Замовлення оформлено:");
+                        System.out.println(order);
+                        cart.clear();
+                    }
                     break;
                 case 0:
                     System.out.println("Дякуємо, що використовували наш магазин!");
