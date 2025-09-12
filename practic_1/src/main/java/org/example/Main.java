@@ -3,7 +3,6 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -39,9 +38,9 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Введіть ID товару для додавання до кошика:");
-                    int id = scanner.nextInt();
+                    int idToAdd = scanner.nextInt();
 
-                    Product productToAdd = products.stream().findFirst().filter(product -> product.getId() == id).orElse(null);
+                    Product productToAdd = products.stream().filter(product -> product.getId() == idToAdd).findFirst().orElse(null);
                     if (productToAdd == null) {
                         System.out.println("Нема товару за цим ID");
                         break;
@@ -51,19 +50,18 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Який товар хочете видалити з кошика? Напишіть ID");
-                    for (Product product : cart.getProducts()) {
-                        System.out.println(product);
-                    }
+                    for (Product product : cart.getProducts()) System.out.println(product);
 
                     int idToDelete = scanner.nextInt();
-                    Product foundProduct = cart.getProducts().stream().findFirst().filter(product -> product.getId() == idToDelete).orElse(null);
+                    Product productToDelete = cart.getProducts().stream().filter(product -> product.getId() == idToDelete).findFirst().orElse(null);
 
-                    if (foundProduct != null) {
-                        cart.removeProduct(foundProduct);
-                        System.out.println("Товар видалено з кошика");
+                    if (productToDelete == null) {
+                        System.out.println("Товар не знайдено");
+                        break;
                     }
 
-                    System.out.println("Товар не знайдено");
+                    cart.removeProduct(productToDelete);
+                    System.out.println("Товар видалено з кошика");
                     break;
                 case 4:
                     System.out.println(cart);
@@ -81,9 +79,7 @@ public class Main {
                     break;
                 case 6:
                     System.out.println("Історія замовлень:");
-                    for (Order order : orders) {
-                        System.out.println(order);
-                    }
+                    for (Order order : orders) System.out.println(order);
                     break;
                 case 7:
                     System.out.println("Знайти за назвою (1) або категорією (2)? Щоб повернутись до меню, натисніть 0");
@@ -91,7 +87,7 @@ public class Main {
 
                     switch (option) {
                         case 1:
-                            System.out.println("Напишіть назіу товару:");
+                            System.out.println("Напишіть назву товару:");
                             String name = scanner.next();
 
                             List<Product> foundProductsByName = products.stream().filter(product -> product.getName().equals(name)).toList();
@@ -106,11 +102,12 @@ public class Main {
                             break;
                         case 0:
                             System.out.println("Повертаємось до основного меню");
-                            return;
+                            break;
                         default:
-                            System.out.println("Невідома опція.");
+                            System.out.println("Невідома опція. Повертаємось до основного меню.");
                             break;
                     }
+
                     break;
                 case 0:
                     System.out.println("Дякуємо, що використовували наш магазин!");
@@ -119,7 +116,6 @@ public class Main {
                     System.out.println("Невідома опція. Спробуйте ще раз.");
                     break;
             }
-
         }
     }
 }
