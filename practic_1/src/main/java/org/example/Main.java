@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -15,6 +17,7 @@ public class Main {
         Product product3 = new Product(3, "Навушники", 2499.00, "Бездротові навушники з шумозаглушенням", accessories);
 
         Cart cart = new Cart();
+        List<Order> orders = new ArrayList<>();
 
         while (true) {
             System.out.println("\nВиберіть опцію:");
@@ -23,6 +26,7 @@ public class Main {
             System.out.println("3 - Видалити товар з кошика");
             System.out.println("4 - Переглянути кошик");
             System.out.println("5 - Зробити замовлення");
+            System.out.println("6 - Переглянути історію замовлень");
             System.out.println("0 - Вийти");
 
             int choice = scanner.nextInt();
@@ -65,9 +69,16 @@ public class Main {
                         System.out.println("Кошик порожній. Додайте товари перед оформленням замовлення.");
                     } else {
                         Order order = new Order(cart);
+                        orders.add(order);
                         System.out.println("Замовлення оформлено:");
                         System.out.println(order);
                         cart.clear();
+                    }
+                    break;
+                case 6:
+                    System.out.println("Історія замовлень:");
+                    for (Order order : orders) {
+                        System.out.println(order);
                     }
                     break;
                 case 0:
