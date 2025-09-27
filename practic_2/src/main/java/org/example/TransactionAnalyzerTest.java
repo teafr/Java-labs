@@ -35,5 +35,28 @@ class TransactionAnalyzerTest {
         Assertions.assertEquals(2, countFeb, "Кількість транзакцій за лютий неправильна");
         Assertions.assertEquals(1, countMar, "Кількість транзакцій за березень неправильна");
     }
+
+    @Test
+    public void testFindTopExpenses() {
+        Transaction transaction1 = new Transaction("01-02-2023", -20.0, "Витрата");
+        Transaction transaction2 = new Transaction("15-02-2023", -20.0, "Витрата");
+        Transaction transaction3 = new Transaction("05-03-2023", -100.0, "Витрата");
+        Transaction transaction4 = new Transaction("11-02-2023", 50.0, "Дохід");
+        Transaction transaction5 = new Transaction("15-01-2023", -70.0, "Витрата");
+        Transaction transaction6 = new Transaction("06-03-2023", -80.0, "Витрата");
+        Transaction transaction7 = new Transaction("01-02-2023", -50.0, "Витрата");
+        Transaction transaction8 = new Transaction("15-02-2023", -20.0, "Витрата");
+        Transaction transaction9 = new Transaction("05-03-2023", -100.0, "Витрата");
+        Transaction transaction10 = new Transaction("11-02-2023", -70.0, "Витрата");
+        Transaction transaction11 = new Transaction("15-01-2023", -70.0, "Витрата");
+        Transaction transaction12 = new Transaction("06-03-2023", -120.0, "Витрата");
+        List<Transaction> transactions = Arrays.asList(transaction1, transaction2, transaction3, transaction4, transaction5, transaction6, transaction7, transaction8, transaction9, transaction10, transaction11, transaction12);
+
+        TransactionAnalyzer analyzer = new TransactionAnalyzer(transactions);
+        List<Transaction> result = analyzer.findTopExpenses();
+
+        Assertions.assertTrue(result.size() < 11);
+        Assertions.assertEquals(-120.0, result.getFirst().getAmount());
+    }
 }
 
