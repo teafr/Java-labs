@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.List;
+import java.util.Map;
 
 public class TransactionReportGenerator {
 
@@ -17,6 +18,22 @@ public class TransactionReportGenerator {
         for (Transaction expense : topExpenses) {
             System.out.println(expense.getDescription() + ": " + expense.getAmount());
         }
+    }
+
+    public void printMaxAndMinExpenseReport(Map<String, Transaction> maxMin) {
+        System.out.println("Найбільша витрата: " + maxMin.get("min").getAmount());
+        System.out.println("Найменша витрата: " +  maxMin.get("max").getAmount());
+    }
+
+    public void printCategoryMonthExpenseChart(Map<String, Map<String, Double>> expenses) {
+        System.out.println("Звіт витрат по категоріях і місяцях (кожна * = 1000 грн):");
+        expenses.forEach((month, categories) -> {
+            System.out.println("Місяць: " + month);
+            categories.forEach((category, amount) -> {
+                int stars = (int) (amount / 1000);
+                System.out.printf("  %-15s : %,.2f грн  %s%n", category, amount, "*".repeat(stars));
+            });
+        });
     }
 }
 

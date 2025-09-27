@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,6 +20,13 @@ public class Main {
 
         List<Transaction> topExpenses = analyzer.findTopExpenses();
         reportGenerator.printTopExpensesReport(topExpenses);
+
+        Map<String, Transaction> maxMin =
+                analyzer.findMaxAndMinExpenseInPeriod("01-01-2024", "31-03-2024");
+        reportGenerator.printMaxAndMinExpenseReport(maxMin);
+
+        Map<String, Map<String, Double>> chart = analyzer.calculateExpensesByCategoryAndMonth();
+        reportGenerator.printCategoryMonthExpenseChart(chart);
     }
 
 }
