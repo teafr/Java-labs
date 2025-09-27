@@ -13,9 +13,7 @@ class TransactionAnalyzerTest {
         Transaction transaction3 = new Transaction("2023-01-03", 150.0, "Дохід");
         List<Transaction> transactions = Arrays.asList(transaction1, transaction2, transaction3);
 
-        TransactionAnalyzer analyzer = new TransactionAnalyzer(transactions);
-
-        double result = analyzer.calculateTotalBalance();
+        double result = TransactionAnalyzer.calculateTotalBalance(transactions);
 
         Assertions.assertEquals(200.0, result, "Розрахунок загального балансу неправильний");
     }
@@ -27,10 +25,8 @@ class TransactionAnalyzerTest {
         Transaction transaction3 = new Transaction("05-03-2023", 100.0, "Дохід");
         List<Transaction> transactions = Arrays.asList(transaction1, transaction2, transaction3);
 
-        TransactionAnalyzer analyzer = new TransactionAnalyzer(transactions);
-
-        int countFeb = analyzer.countTransactionsByMonth("02-2023");
-        int countMar = analyzer.countTransactionsByMonth("03-2023");
+        int countFeb = TransactionAnalyzer.countTransactionsByMonth(transactions, "02-2023");
+        int countMar = TransactionAnalyzer.countTransactionsByMonth(transactions, "03-2023");
 
         Assertions.assertEquals(2, countFeb, "Кількість транзакцій за лютий неправильна");
         Assertions.assertEquals(1, countMar, "Кількість транзакцій за березень неправильна");
@@ -52,8 +48,7 @@ class TransactionAnalyzerTest {
         Transaction transaction12 = new Transaction("06-03-2023", -120.0, "Витрата");
         List<Transaction> transactions = Arrays.asList(transaction1, transaction2, transaction3, transaction4, transaction5, transaction6, transaction7, transaction8, transaction9, transaction10, transaction11, transaction12);
 
-        TransactionAnalyzer analyzer = new TransactionAnalyzer(transactions);
-        List<Transaction> result = analyzer.findTopExpenses();
+        List<Transaction> result = TransactionAnalyzer.findTopExpenses(transactions);
 
         Assertions.assertTrue(result.size() < 11);
         Assertions.assertEquals(-120.0, result.getFirst().getAmount());

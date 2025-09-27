@@ -15,8 +15,7 @@ public class TransactionCSVReaderTest {
         String transactionCSV = "16-12-2023,25000,Фріланс";
         Transaction expactedTransaction = new Transaction("16-12-2023", 25000, "Фріланс");
 
-        TransactionCSVReader csvReader = new TransactionCSVReader();
-        Transaction transaction = csvReader.convertToTransaction(transactionCSV);
+        Transaction transaction = TransactionCSVReader.convertToTransaction(transactionCSV);
 
         Assertions.assertEquals(expactedTransaction.getDate(), transaction.getDate());
         Assertions.assertEquals(expactedTransaction.getAmount(), transaction.getAmount());
@@ -29,8 +28,7 @@ public class TransactionCSVReaderTest {
         String csvContent = "10-01-2024,500,Gift";
         Files.write(tempFile, csvContent.getBytes(StandardCharsets.UTF_8));
 
-        TransactionCSVReader reader = new TransactionCSVReader();
-        List<Transaction> transactions = reader.readTransactions(tempFile.toUri().toString());
+        List<Transaction> transactions = TransactionCSVReader.readTransactions(tempFile.toUri().toString());
 
         Assertions.assertEquals(1, transactions.size());
         Transaction t = transactions.getFirst();

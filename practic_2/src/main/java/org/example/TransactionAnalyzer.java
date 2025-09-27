@@ -8,16 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class TransactionAnalyzer {
-    private List<Transaction> transactions;
-    private DateTimeFormatter dateFormatter;
+public abstract class TransactionAnalyzer {
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    public TransactionAnalyzer(List<Transaction> transactions) {
-        this.transactions = transactions;
-        this.dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    }
-
-    public double calculateTotalBalance() {
+    public static double calculateTotalBalance(List<Transaction> transactions) {
         double balance = 0;
         for (Transaction transaction : transactions) {
             balance += transaction.getAmount();
@@ -25,7 +19,7 @@ public class TransactionAnalyzer {
         return balance;
     }
 
-    public int countTransactionsByMonth(String monthYear) {
+    public static int countTransactionsByMonth(List<Transaction> transactions, String monthYear) {
         int count = 0;
         for (Transaction transaction : transactions) {
             LocalDate date = LocalDate.parse(transaction.getDate(), dateFormatter);
@@ -37,7 +31,7 @@ public class TransactionAnalyzer {
         return count;
     }
 
-    public List<Transaction> findTopExpenses() {
+    public static List<Transaction> findTopExpenses(List<Transaction> transactions) {
         return transactions.stream()
             .filter(t -> t.getAmount() < 0)
             .sorted(Comparator.comparing(Transaction::getAmount))
@@ -45,7 +39,7 @@ public class TransactionAnalyzer {
             .collect(Collectors.toList());
     }
 
-    public Map<String, Transaction> findMaxAndMinExpenseInPeriod(String startDate, String endDate) {
+    public static Map<String, Transaction> findMaxAndMinExpenseInPeriod(List<Transaction> transactions, String startDate, String endDate) {
         LocalDate start = LocalDate.parse(startDate, dateFormatter);
         LocalDate end = LocalDate.parse(endDate, dateFormatter);
 
@@ -66,7 +60,7 @@ public class TransactionAnalyzer {
         return result;
     }
 
-    public Map<String, Map<String, Double>> calculateExpensesByCategoryAndMonth() {
+    public static Map<String, Map<String, Double>> calculateExpensesByCategoryAndMonth(List<Transaction> transactions) {
         DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MM-yyyy");
 
         return transactions.stream()
